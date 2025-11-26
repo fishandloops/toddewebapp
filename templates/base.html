@@ -16,54 +16,36 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{% static 'css/todde.css' %}" />
-    <style>
-      /* Hero Slider Styles */
-      .hero-slider {
-        position: relative;
-        min-height: 400px;
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-todde-red: #8B1A35;
+        --color-todde-red-dark: #601225;
+        --color-todde-dark-bg: #1A1A1A;
+        --color-todde-light-bg: #262626;
+        --color-todde-neutral: #F3F7F8;
+        --color-todde-dark: #383838;
+        --color-todde-blue: #004080;
+        --color-todde-orange: #E18335;
+        --color-todde-jet: #004080;
+        --color-todde-text-dark: #FFFFFF;
+        --color-todde-text-light: #9CA3AF;
       }
       
-      .hero-slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        transition: opacity 0.5s ease-in-out;
-      }
-      
-      .hero-slide.active {
-        opacity: 1;
-        z-index: 1;
-      }
-      
-      .hero-dot {
-        cursor: pointer;
-        border: none;
-        outline: none;
-      }
-      
-      .hero-dot:hover {
-        transform: scale(1.2);
-      }
-      
-      .hero-prev,
-      .hero-next {
-        cursor: pointer;
-        border: none;
-        outline: none;
-      }
-      
-      .hero-prev:hover,
-      .hero-next:hover {
-        background-color: rgba(0, 0, 0, 0.6);
+      @layer utilities {
+        .container {
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          max-width: 1280px;
+        }
       }
     </style>
     <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}" />
     {% block extra_head %}{% endblock %}
   </head>
-  <body class="bg-todde-neutral text-todde-dark antialiased">
+  <body class="bg-todde-dark-bg text-white antialiased">
     <div class="min-h-screen flex flex-col">
       {% include 'partials/header.html' %}
       <main id="main-content" class="flex-1">

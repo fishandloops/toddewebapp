@@ -79,27 +79,27 @@
   }
 
   .loan-tab-trigger:hover {
-    color: #006e73;
-    background-color: rgba(0, 145, 150, 0.08);
-    border-color: rgba(0, 145, 150, 0.35);
+    color: #003366;
+    background-color: rgba(0, 64, 128, 0.08);
+    border-color: rgba(0, 64, 128, 0.35);
     box-shadow: 0 18px 32px -22px rgba(0, 30, 60, 0.45);
   }
 
   .loan-tab-trigger:focus-visible {
-    outline: 2px solid rgba(0, 145, 150, 0.6);
+    outline: 2px solid rgba(0, 64, 128, 0.6);
     outline-offset: 2px;
   }
 
   .loan-tab-trigger--active {
-    color: #0c2e8a;
+    color: #004080;
     background-color: rgba(255, 255, 255, 1);
-    border-color: rgba(0, 145, 150, 0.55);
-    border-bottom-color: #009196;
-    box-shadow: 0 20px 38px -24px rgba(0, 145, 150, 0.45);
+    border-color: rgba(0, 64, 128, 0.55);
+    border-bottom-color: #004080;
+    box-shadow: 0 20px 38px -24px rgba(0, 64, 128, 0.45);
   }
 
   .loan-tab-trigger--active:hover {
-    color: #0b3070;
+    color: #003366;
   }
 
   .loan-tab-panel[hidden] {
@@ -186,14 +186,14 @@
   }
 
   .todde-button-primary:hover {
-    background-color: #007a7c;
+    background-color: #003366;
   }
 
   .todde-button-primary:focus-visible {
     outline-style: solid;
     outline-width: 2px;
     outline-offset: 2px;
-    outline-color: #009196;
+    outline-color: #004080;
   }
 
   .todde-button-secondary {
@@ -231,7 +231,7 @@
     font-size: 1rem;
     line-height: 1.5rem;
     font-weight: 500;
-    color: #009196;
+    color: #004080;
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     transition-property: all;
@@ -247,13 +247,13 @@
     outline-style: solid;
     outline-width: 2px;
     outline-offset: 2px;
-    outline-color: #009196;
+    outline-color: #004080;
   }
 
   .todde-section-title {
     margin-bottom: 1.5rem;
     font-weight: 700;
-    color: #009196;
+    color: #004080;
     font-size: 1.875rem;
     line-height: 2.25rem;
   }
@@ -300,19 +300,19 @@
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     font-weight: 600;
-    color: #009196;
+    color: #004080;
     background-color: #fff;
-    border: 1px solid rgba(0, 145, 150, 0.25);
+    border: 1px solid rgba(0, 64, 128, 0.25);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
     transition: all 0.15s ease-in-out;
   }
 
   .todde-button-outline:hover {
-    background-color: rgba(0, 145, 150, 0.08);
+    background-color: rgba(0, 64, 128, 0.08);
   }
 
   .todde-button-outline:focus-visible {
-    outline: 2px solid rgba(0, 145, 150, 0.4);
+    outline: 2px solid rgba(0, 64, 128, 0.4);
     outline-offset: 2px;
   }
 
@@ -321,7 +321,7 @@
     font-size: 2.5rem;
     line-height: 1.2;
     font-weight: 700;
-    color: #eb2f06;
+    color: #E18335;
   }
 
   .vehicle-summary-stat {
@@ -362,10 +362,10 @@
   }
 
   .vehicle-highlight-card {
-    border: 1px solid rgba(249, 176, 103, 0.55);
-    background-color: #fff0e1;
+    border: 1px solid rgba(225, 131, 53, 0.55);
+    background-color: #FFF5ED;
     padding: 1.5rem;
-    box-shadow: 0 10px 30px -12px rgba(12, 46, 138, 0.2);
+    box-shadow: 0 10px 30px -12px rgba(0, 64, 128, 0.2);
   }
 
   .vehicle-highlight-eyebrow {
@@ -374,20 +374,20 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.3em;
-    color: rgba(184, 91, 17, 0.6);
+    color: rgba(225, 131, 53, 0.6);
   }
 
   .vehicle-highlight-title {
     margin-top: 0.75rem;
     font-size: 1.25rem;
     font-weight: 600;
-    color: #b85b11;
+    color: #E18335;
   }
 
   .vehicle-highlight-subhead {
     margin-top: 0.5rem;
     font-size: 0.875rem;
-    color: #8c3c05;
+    color: #C66D2A;
   }
 
   .vehicle-highlight-subtitle {
@@ -396,7 +396,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.25em;
-    color: rgba(184, 91, 17, 0.7);
+    color: rgba(225, 131, 53, 0.7);
   }
 
   .vehicle-highlight-list {
@@ -405,7 +405,7 @@
     flex-direction: column;
     gap: 0.75rem;
     font-size: 0.875rem;
-    color: #8c3c05;
+    color: #C66D2A;
   }
 
   .vehicle-highlight-item {
@@ -420,7 +420,7 @@
 
   .vehicle-highlight-empty {
     font-size: 0.875rem;
-    color: rgba(140, 60, 5, 0.7);
+    color: rgba(198, 109, 42, 0.7);
   }
 
 }

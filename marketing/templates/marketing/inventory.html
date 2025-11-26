@@ -11,8 +11,8 @@
         {{ intro_text|default:"Discover certified cars inspected by Todde. Use the filters to zero in on the right price, year, transmission, or body style." }}
       </p>
     </div>
-    <div class="flex items-center gap-3 rounded-full border border-todde-jet/10 bg-white px-5 py-2 text-sm font-medium text-todde-dark/70">
-      <span class="text-todde-blue">{{ total_results|intcomma }}</span>
+    <div class="flex items-center gap-3 rounded-full border border-todde-orange/20 bg-gradient-to-r from-todde-orange/5 to-todde-orange/10 px-5 py-2 text-sm font-medium text-todde-dark/70">
+      <span class="text-todde-orange font-bold">{{ total_results|intcomma }}</span>
       <span>{{ summary_badge_label|default:"vehicles available" }}</span>
     </div>
   </div>
@@ -214,8 +214,8 @@
           <div class="space-y-3 border-t border-todde-jet/10 pt-6">
             <button
               type="submit"
-              class="inline-flex w-full items-center justify-center rounded-lg bg-todde-blue px-4 py-3 text-sm font-semibold text-white transition hover:bg-todde-blue-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-todde-blue/50"
-            >Apply Filters</button>
+              class="inline-flex w-full items-center justify-center rounded-lg bg-todde-orange px-4 py-3 text-sm font-semibold text-white transition hover:bg-todde-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-todde-orange/50"
+            >Apply filters</button>
             {% if filters_querystring %}
             <a href="?sort={{ selected_sort }}" class="block text-center text-xs font-semibold uppercase tracking-[0.25em] text-todde-dark/50 hover:text-todde-blue">Clear filters</a>
             {% endif %}
@@ -278,7 +278,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             <div class="absolute inset-x-4 top-4 flex items-center justify-between">
               <span class="inline-flex items-center rounded-full bg-white/95 backdrop-blur-sm px-4 py-2 text-xs font-bold uppercase tracking-wider text-todde-blue shadow-lg">{{ variant.model.manufacturer.name }}</span>
-              <span class="rounded-full bg-todde-blue px-4 py-2 text-xs font-bold text-white shadow-lg">{{ variant.year }}</span>
+              <span class="rounded-full bg-todde-orange px-4 py-2 text-xs font-bold text-white shadow-lg">{{ variant.year }}</span>
             </div>
             <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white via-white/90 to-transparent"></div>
           </div>
@@ -293,7 +293,7 @@
             </div>
             <div class="mt-auto space-y-4">
               <div class="flex items-center justify-between">
-                <span class="text-xl font-bold text-todde-blue">{{ variant.formatted_price }}</span>
+                <span class="text-xl font-bold text-todde-orange">{{ variant.formatted_price }}</span>
                 <div class="flex flex-col items-end">
                   <span class="text-xs uppercase tracking-wider text-gray-400 font-medium">Ref: #{{ variant.id }}</span>
                   <div class="flex items-center space-x-1 mt-1">
@@ -304,7 +304,7 @@
               </div>
             </div>
           </div>
-          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-todde-blue via-todde-blue-dark to-todde-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-todde-orange via-todde-blue to-todde-orange transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
         </article>
         {% empty %}
         <div class="col-span-full flex flex-col items-center justify-center rounded-3xl border border-dashed border-todde-blue/30 bg-white p-12 text-center">

@@ -1,411 +1,369 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static marketing_icons %}
 
 {% block title %}{{ meta.title }}{% endblock %}
 {% block meta_description %}{{ meta.description }}{% endblock %}
 
 {% block content %}
-<div class="bg-todde-neutral/70">
-  <div class="container py-10">
-    <div class="grid gap-6 lg:grid-cols-[280px_1fr]">
-      <aside class="todde-card w-full overflow-hidden bg-white p-0 text-todde-dark shadow-card">
-        <div class="bg-todde-dark px-6 py-4 text-white">
-          <div class="flex items-center gap-3">
-            {% marketing_icon 'heroicons:bars-3' 'h-5 w-5 text-white' %}
-            <p class="text-sm font-semibold uppercase tracking-widest">Quick Estimate</p>
-          </div>
+<!-- Hero Section -->
+<div class="relative bg-todde-dark-bg text-white min-h-screen flex items-center">
+  <!-- Background Image with Overlay -->
+  <div class="absolute inset-0 z-0">
+    <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?q=80&w=2070&auto=format&fit=crop" alt="Hero Background" class="h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-black/5"></div>
+  </div>
+
+  <div class="container relative z-10 py-20 lg:py-32">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <!-- Hero Text -->
+      <div class="space-y-8">
+        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">New in stock</p>
+        <h1 class="text-5xl font-bold leading-tight md:text-6xl">
+          Upgrade Your<br />Driving Experience
+        </h1>
+        <div class="flex flex-wrap gap-4">
+          <a href="{% url "marketing:all_cars" %}" class="inline-block bg-white px-8 py-3 text-sm font-semibold text-black transition hover:bg-gray-200">
+            Discover More
+          </a>
+          <a href="#" class="inline-block border border-white px-8 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black">
+            Meet Horizon GT
+          </a>
         </div>
-        <div class="px-6 pb-6 pt-5">
-          <form
-            id="car-filter-form"
-            class="space-y-4"
-            data-models-url="{% url 'marketing:api_car_models' %}"
-            data-variants-url="{% url 'marketing:api_car_variants' %}"
-          >
-            <div>
-              <label for="car-manufacturer" class="block text-xs font-semibold uppercase tracking-widest text-todde-dark/60">Manufacturer</label>
-              <select
-                id="car-manufacturer"
-                name="manufacturer"
-                class="mt-2 block w-full border border-todde-blue/10 bg-white px-4 py-3 text-sm text-todde-dark/80 focus:border-todde-blue focus:outline-none focus:ring-2 focus:ring-todde-blue/30"
-                data-role="car-manufacturer"
-              >
-                <option value="">Select manufacturer</option>
-                {% for manufacturer in car_manufacturers %}
-                  <option value="{{ manufacturer.id }}">{{ manufacturer.name }}</option>
-                {% empty %}
-                  <option value="" disabled>No manufacturers available yet</option>
-                {% endfor %}
-              </select>
-            </div>
+      </div>
 
-            <div>
-              <label for="car-model" class="block text-xs font-semibold uppercase tracking-widest text-todde-dark/60">Model</label>
-              <select
-                id="car-model"
-                name="model"
-                class="mt-2 block w-full border border-todde-blue/10 bg-white px-4 py-3 text-sm text-todde-dark/80 focus:border-todde-blue focus:outline-none focus:ring-2 focus:ring-todde-blue/30 disabled:bg-todde-neutral/40 disabled:text-todde-dark/40"
-                data-role="car-model"
-                disabled
-              >
-                <option value="">Select a manufacturer first</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="car-year" class="block text-xs font-semibold uppercase tracking-widest text-todde-dark/60">Year</label>
-              <select
-                id="car-year"
-                name="year"
-                class="mt-2 block w-full border border-todde-blue/10 bg-white px-4 py-3 text-sm text-todde-dark/80 focus:border-todde-blue focus:outline-none focus:ring-2 focus:ring-todde-blue/30 disabled:bg-todde-neutral/40 disabled:text-todde-dark/40"
-                data-role="car-year"
-                disabled
-              >
-                <option value="">Select a model first</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold uppercase tracking-widest text-todde-dark/60">Estimated price</label>
-              <div class="mt-2 flex h-12 items-center justify-between rounded border border-todde-blue/10 bg-todde-neutral/20 px-4" data-role="car-price-wrapper">
-                <span class="text-sm font-semibold text-todde-dark" data-role="car-price">Choose a year to view price</span>
-                <span class="text-xs uppercase tracking-widest text-todde-dark/40" data-role="car-trim"></span>
-              </div>
-            </div>
-
-            <p class="hidden text-xs font-medium text-red-600" data-role="car-feedback"></p>
-
-            <div class="pt-2">
-              <button type="button" id="view-more-filtered" class="inline-flex w-full items-center justify-center gap-2 bg-todde-blue px-4 py-3 text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-todde-blue/90">
-                View more
-                {% marketing_icon 'heroicons:arrow-right' 'h-4 w-4 text-white' %}
-              </button>
-            </div>
-          </form>
-        </div>
-      </aside>
-
-      <div class="space-y-6">
-        <!-- Hero Slider -->
-        <div class="relative isolate overflow-hidden bg-gradient-to-r from-[#1A1A1A] via-[#2A2A2A] to-[#1A1A1A] text-white shadow-card">
-          {% if hero_slides %}
-            <div class="hero-slider relative min-h-[500px]">
-              {% for hero in hero_slides %}
-                <div class="hero-slide {% if forloop.first %}active{% endif %} absolute inset-0 transition-opacity duration-500 ease-in-out {% if not forloop.first %}opacity-0{% else %}opacity-100{% endif %}">
-                  {% if hero.image_url %}
-                    <img
-                      src="{{ hero.image_url }}"
-                      alt="{{ hero.title|default:'Featured vehicle' }}"
-                      class="absolute inset-y-0 right-0 h-full w-3/5 object-cover opacity-90 mix-blend-lighten"
-                      loading="eager"
-                    />
-                  {% endif %}
-                  <div class="relative z-10 max-w-xl px-10 py-14">
-                    {% if hero.badge_label %}
-                      <span class="inline-flex items-center gap-2 bg-todde-blue px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
-                        {{ hero.badge_label }}
-                      </span>
-                    {% endif %}
-                    <h1 class="mt-6 text-4xl font-bold leading-tight text-white lg:text-5xl">
-                      {{ hero.title|default:"Auto Financing That Gets You On The Road Faster" }}
-                    </h1>
-                    <p class="mt-4 text-base text-white/80">
-                      {{ hero.subtitle|default:"Discover certified vehicles, compare transparent repayment plans, and secure Todde financing with as little as 30% upfront." }}
-                    </p>
-                    <div class="mt-8">
-                      {% if hero.primary_cta_label and hero.primary_cta_url %}
-                        <a href="{{ hero.primary_cta_url }}" class="inline-flex items-center justify-center bg-todde-blue px-8 py-4 text-base font-semibold text-white shadow-lg hover:bg-todde-blue/90 transition-colors duration-200">
-                          {{ hero.primary_cta_label }}
-                        </a>
-                      {% endif %}
-                    </div>
-                  </div>
-                </div>
+      <!-- Search Form -->
+      <div class="ml-auto w-full max-w-lg rounded-sm bg-black/50 p-10 border border-white/50">
+        <h2 class="mb-6 text-2xl font-bold text-white italic">Find Your Ride</h2>
+        <form
+          id="car-filter-form"
+          class="space-y-5"
+          data-models-url="{% url "marketing:api_car_models" %}"
+          data-variants-url="{% url "marketing:api_car_variants" %}"
+        >
+          <div>
+            <label for="car-manufacturer" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-400">Brand</label>
+            <select
+              id="car-manufacturer"
+              name="manufacturer"
+              class="w-full rounded-none border border-white/50 bg-transparent px-4 py-3 text-white placeholder-gray-500 focus:border-todde-red focus:ring-0 text-base"
+              data-role="car-manufacturer"
+            >
+              <option value="" class="text-black">Brand*</option>
+              {% for manufacturer in car_manufacturers %}
+                <option value="{{ manufacturer.id }}" class="text-black">{{ manufacturer.name }}</option>
               {% endfor %}
-              
-              <!-- Slider Navigation -->
-              {% if hero_slides|length > 1 %}
-                <div class="absolute bottom-6 left-10 z-20 flex space-x-2">
-                  {% for hero in hero_slides %}
-                    <button class="hero-dot w-3 h-3 rounded-full transition-all duration-300 {% if forloop.first %}bg-white{% else %}bg-white/40{% endif %}" data-slide="{{ forloop.counter0 }}"></button>
-                  {% endfor %}
-                </div>
-                
-                <!-- Arrow Navigation -->
-                <button class="hero-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-sm transition hover:bg-black/40">
-                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                  </svg>
-                </button>
-                <button class="hero-next absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-sm transition hover:bg-black/40">
-                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </button>
-              {% endif %}
-            </div>
-          {% else %}
-            <!-- Fallback content if no hero slides -->
-            <div class="relative z-10 max-w-xl px-10 py-14 min-h-[500px] flex flex-col justify-center">
-              <h1 class="text-4xl font-bold leading-tight text-white lg:text-5xl">
-                Auto Financing That Gets You On The Road Faster
-              </h1>
-              <p class="mt-4 text-base text-white/80">
-                Discover certified vehicles, compare transparent repayment plans, and secure Todde financing with as little as 30% upfront.
-              </p>
-              <div class="mt-8">
-                <a href="{% url 'marketing:financing' %}" class="inline-flex items-center justify-center bg-todde-blue px-8 py-4 text-base font-semibold text-white shadow-lg hover:bg-todde-blue/90 transition-colors duration-200">
-                  Discover more
-                </a>
-              </div>
-            </div>
-          {% endif %}
-            {% if brand_metrics %}
-              <dl class="mt-10 mb-[2rem] px-10 grid gap-6 sm:grid-cols-3">
-                {% for metric in brand_metrics %}
-                  <div>
-                    <dt class="text-sm uppercase tracking-widest text-white/60">{{ metric.label }}</dt>
-                    <dd class="mt-1 text-2xl font-semibold text-white">{{ metric.value }}</dd>
-                  </div>
-                {% endfor %}
-              </dl>
-            {% endif %}
+            </select>
           </div>
-          <div class="absolute bottom-8 right-10 flex items-center gap-2">
-            <span class="h-2 w-2  bg-white"></span>
-            <span class="h-2 w-2  bg-white/40"></span>
-          </div>
-        </div>
 
+          <div>
+            <label for="car-model" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-400">Model</label>
+            <select
+              id="car-model"
+              name="model"
+              class="w-full rounded-none border border-white/50 bg-transparent px-4 py-3 text-white placeholder-gray-500 focus:border-todde-red focus:ring-0 disabled:opacity-50 text-base"
+              data-role="car-model"
+              disabled
+            >
+              <option value="" class="text-black">Model*</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="car-year" class="mb-2 block text-xs font-bold uppercase tracking-wider text-gray-400">Type</label>
+            <select
+              id="car-year"
+              name="year"
+              class="w-full rounded-none border border-white/50 bg-transparent px-4 py-3 text-white placeholder-gray-500 focus:border-todde-red focus:ring-0 disabled:opacity-50 text-base"
+              data-role="car-year"
+              disabled
+            >
+              <option value="" class="text-black">Type*</option>
+            </select>
+          </div>
+
+          <button type="button" id="view-more-filtered" class="mt-4 w-full bg-todde-red px-6 py-4 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-todde-red-dark">
+            Get Started
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </div>
 
-<section class="container py-8" aria-labelledby="featured-cars">
-  {% with copy=section_copy.featured %}
-    <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      <div>
-        <h2 id="featured-cars" class="todde-section-title">{{ copy.heading|default:"Featured vehicles" }}</h2>
-        <p class="todde-subtitle">{{ copy.subheading|default:"Handpicked cars, verified by Todde engineers." }}</p>
+<!-- Features Section -->
+<section class="bg-white py-20">
+  <div class="container">
+    <div class="grid gap-8 md:grid-cols-3">
+      <!-- Feature 1 -->
+      <div class="relative">
+        <div class="flex items-center gap-4 mb-4">
+          <span class="text-sm font-medium text-gray-900">01</span>
+          <div class="flex-1 h-px bg-gray-900"></div>
+        </div>
+        <div class="border border-gray-900 p-8 text-center">
+          <h3 class="mb-4 text-xl font-bold italic text-gray-900">Variety of Cars</h3>
+          <p class="text-sm text-gray-600">
+            At our car shop, we are committed to providing our customers with exceptional service and competitive pricing.
+          </p>
+        </div>
       </div>
-      {% if copy.cta_label and copy.cta_url %}
-        <a href="{{ copy.cta_url }}" class="todde-button-primary">{{ copy.cta_label }}</a>
-      {% endif %}
+      <!-- Feature 2 -->
+      <div class="relative">
+        <div class="flex items-center gap-4 mb-4">
+          <span class="text-sm font-medium text-gray-900">02</span>
+          <div class="flex-1 h-px bg-gray-900"></div>
+        </div>
+        <div class="border border-gray-900 p-8 text-center">
+          <h3 class="mb-4 text-xl font-bold italic text-gray-900">Flexible Financing</h3>
+          <p class="text-sm text-gray-600">
+            Access transparent financing with fair interest rates and flexible payment plans tailored to your budget.
+          </p>
+        </div>
+      </div>
+      <!-- Feature 3 -->
+      <div class="relative">
+        <div class="flex items-center gap-4 mb-4">
+          <span class="text-sm font-medium text-gray-900">03</span>
+          <div class="flex-1 h-px bg-gray-900"></div>
+        </div>
+        <div class="border border-gray-900 p-8 text-center">
+          <h3 class="mb-4 text-xl font-bold italic text-gray-900">Drive in 48 Hours</h3>
+          <p class="text-sm text-gray-600">
+            Get approved fast and drive home your dream car in as little as 48 hours with our streamlined process.
+          </p>
+        </div>
+      </div>
     </div>
-  {% endwith %}
-  <div class="mt-10 grid gap-8 lg:grid-cols-4 md:grid-cols-2">
-    {% for vehicle in featured_vehicles|slice:":4" %}
-      <article class="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-        {% if vehicle.variant %}
-          <a
-            href="{% url 'marketing:vehicle_detail' vehicle.variant.id %}"
-            class="absolute inset-0 z-10"
-            aria-label="View details for {{ vehicle.variant.model.manufacturer.name }} {{ vehicle.variant.model.name }} {{ vehicle.variant.trim|default:'' }}"
-          ><span class="sr-only">View details</span></a>
-        {% endif %}
-        <div class="relative overflow-hidden {% if vehicle.variant %}cursor-pointer{% else %}cursor-default{% endif %}">
-          <img src="{{ vehicle.display_image_url }}" alt="{{ vehicle.display_image_alt|default:vehicle.name }}" class="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-110" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-          <span class="absolute left-4 top-4 bg-todde-blue px-3 py-2 text-xs font-bold uppercase tracking-wider text-white rounded-full shadow-lg">{{ vehicle.badge }}</span>
-          <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white via-white/90 to-transparent"></div>
-        </div>
-        <div class="relative px-6 py-6 space-y-4">
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-todde-dark group-hover:text-todde-blue transition-colors duration-200 {% if vehicle.variant %}cursor-pointer{% endif %}">{{ vehicle.name }}</h3>
-          </div>
-          <div class="flex items-center justify-between">
-            {% if vehicle.resolved_price %}
-              <p class="text-lg font-bold text-todde-blue">{{ vehicle.resolved_price }}</p>
-            {% endif %}
-            <div class="flex items-center space-x-1">
-              <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span class="text-xs font-medium text-green-600 uppercase tracking-wide">Available</span>
-            </div>
-          </div>
-        </div>
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-todde-blue via-todde-blue-dark to-todde-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-      </article>
-    {% endfor %}
   </div>
-  
-  <!-- Show More Button -->
-  {% if featured_vehicles|length > 4 %}
-    <div class="mt-8 text-center">
-      <a href="/cars/" class="inline-flex items-center gap-2 bg-todde-blue px-6 py-3 text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-todde-blue/90">
-        Show more
-        {% marketing_icon 'heroicons:arrow-right' 'h-4 w-4 text-white' %}
+</section>
+
+<!-- Latest Vehicles Section -->
+<section class="bg-white py-20" id="featured-vehicles-section">
+  <div class="container">
+    <!-- <p class="mb-8 text-xs font-bold uppercase tracking-widest text-gray-500">Featured</p> -->
+    <h2 class="mb-12 text-4xl font-bold text-gray-900">Featured Vehicles</h2>
+
+    <!-- Tabs -->
+    <div class="mb-12 flex flex-wrap gap-8 border-b border-gray-200 pb-4" id="vehicle-tabs">
+      <button class="vehicle-tab text-sm font-bold text-gray-900 border-b-2 border-todde-red pb-4 -mb-4.5" data-category="suv">Crossovers & SUVs</button>
+      <button class="vehicle-tab text-sm font-bold text-gray-500 hover:text-gray-900 pb-4 -mb-4.5" data-category="sedan">Cars</button>
+      <button class="vehicle-tab text-sm font-bold text-gray-500 hover:text-gray-900 pb-4 -mb-4.5" data-category="hybrid">Hybrid</button>
+      <button class="vehicle-tab text-sm font-bold text-gray-500 hover:text-gray-900 pb-4 -mb-4.5" data-category="electric">Electric</button>
+      <button class="vehicle-tab text-sm font-bold text-gray-500 hover:text-gray-900 pb-4 -mb-4.5" data-category="coupe">Sports Cars</button>
+    </div>
+
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4" id="vehicle-grid">
+      {% for vehicle in featured_vehicles %}
+      <div class="group bg-transparent vehicle-card" data-category="{{ vehicle.variant.model.body_type|default:'sedan' }}">
+        <div class="mb-4 overflow-hidden bg-gray-100">
+          <img src="{{ vehicle.display_image_url }}" alt="{{ vehicle.name }}" class="h-48 w-full object-cover transition duration-500 group-hover:scale-105" />
+        </div>
+        <h3 class="mb-1 text-lg font-bold text-gray-900">{{ vehicle.name }}</h3>
+        <p class="mb-1 text-sm font-bold text-gray-900">{{ vehicle.resolved_price }}</p>
+        <p class="text-xs text-gray-500">MSRP: {{ vehicle.msrp|default:"N/A" }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    
+    <div class="mt-12 text-center">
+      <a href="{% url "marketing:all_cars" %}" class="inline-block border border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white">
+        Discover More
       </a>
     </div>
-  {% endif %}
+  </div>
 </section>
 
-<section id="about" class="bg-todde-neutral py-20">
-  <div class="container grid gap-12 lg:grid-cols-2 lg:items-center">
-    <div class="space-y-6">
-      {% with copy=section_copy.value_props %}
-        <h2 id="values" class="todde-section-title">{{ copy.heading|default:"Why choose Todde?" }}</h2>
-        <p class="todde-subtitle">{{ copy.subheading|default:"A full-stack automotive partner that delivers value before and after you take the keys." }}</p>
-      {% endwith %}
+<!-- Classics Section -->
+<section class="bg-white py-20">
+  <div class="container">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
       <div class="space-y-6">
-        {% for prop in value_props %}
-          <article class="flex gap-4  bg-white/80 p-6 shadow-subtle">
-            <div class="flex h-12 w-12 items-center justify-center  bg-todde-blue/10 text-todde-blue">
-              {% marketing_icon prop.icon 'w-6 h-6' %}
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold text-todde-blue">{{ prop.title }}</h3>
-              <p class="text-sm text-todde-dark/80">{{ prop.description }}</p>
-            </div>
-          </article>
+        <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Classics</p>
+        <h2 class="text-4xl font-bold text-gray-900">Discover A New<br />Level Of Comfort</h2>
+        <p class="text-gray-600">
+          We are here to make the car-buying process as easy and stress-free as possible. Contact us today to schedule a test drive or to learn more about our financing and service options.
+        </p>
+        <a href="{% url "marketing:all_cars" %}" class="inline-block border border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white">
+          Discover More
+        </a>
+      </div>
+      <div class="relative h-[400px] overflow-hidden bg-gray-100">
+         <!-- Placeholder for Classics Image -->
+         <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" alt="Classic Car" class="h-full w-full object-cover" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Vehicles Section -->
+<section class="bg-white py-20">
+  <div class="container">
+    <p class="mb-8 text-xs font-bold uppercase tracking-widest text-gray-500">We Recommend</p>
+    <h2 class="mb-12 text-4xl font-bold text-gray-900">Featured Vehicles</h2>
+
+    {% if featured_vehicles %}
+      {% with vehicle=featured_vehicles.0 %}
+      <div class="grid border border-gray-200 bg-gray-50 lg:grid-cols-2">
+        <div class="h-[400px] bg-gray-100 lg:h-auto">
+          <img src="{{ vehicle.display_image_url }}" alt="{{ vehicle.name }}" class="h-full w-full object-cover" />
+        </div>
+        <div class="flex flex-col justify-center p-12">
+          <div class="mb-4 flex items-center justify-between text-xs text-gray-500">
+            <span>{{ vehicle.year|default:"2023" }} {{ vehicle.fuel_type|default:"Electric" }}</span>
+            <span>Mileage: {{ vehicle.mileage|default:"0" }}</span>
+          </div>
+          <h3 class="mb-4 text-3xl font-bold text-gray-900">{{ vehicle.name }}</h3>
+          <p class="mb-6 text-sm text-gray-600">
+            With its aerodynamic curves and bold lines, this car is a standout on the road, turning heads and making a statement wherever it goes.
+          </p>
+          <div class="mb-8 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-gray-900">{{ vehicle.resolved_price }}</span>
+            {% if vehicle.msrp %}
+            <span class="text-sm text-gray-500 line-through">MSRP: {{ vehicle.msrp }}</span>
+            {% endif %}
+          </div>
+          <div>
+            <a href="{% if vehicle.variant %}{% url "marketing:vehicle_detail" vehicle.variant.id %}{% else %}#{% endif %}" class="inline-block border border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white">
+              Explore
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endwith %}
+    {% endif %}
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="relative bg-todde-dark-bg py-24 text-white">
+  <div class="absolute inset-0 z-0">
+    <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600&q=80" alt="CTA Background" class="h-full w-full object-cover opacity-30" />
+    <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
+  </div>
+  <div class="container relative z-10">
+    <div class="max-w-2xl">
+      <p class="mb-4 text-xs font-bold uppercase tracking-widest text-todde-red">Flexible Financing</p>
+      <h2 class="mb-6 text-4xl font-bold leading-tight">Drive Your Dream Car<br />Home Today</h2>
+      <p class="mb-8 text-gray-300">
+        Get approved in minutes with our flexible financing options. Low rates, easy payments, and drive away in as little as 48 hours.
+      </p>
+      <div class="flex max-w-lg gap-4">
+        <a href="{% url 'marketing:financing' %}" class="bg-todde-red px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-todde-red-dark">
+          Get Pre-Approved
+        </a>
+        <a href="{% url 'marketing:all_cars' %}" class="border border-white/50 bg-transparent px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-white/10">
+          Browse Inventory
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Testimonials Section -->
+<section class="bg-white py-20 border-t border-gray-200">
+  <div class="container">
+    <p class="mb-8 text-xs font-bold uppercase tracking-widest text-gray-500">Testimonials</p>
+    <h2 class="mb-12 text-4xl font-bold text-gray-900">What Our Clients Say</h2>
+
+    <div class="grid gap-8 md:grid-cols-2">
+      <!-- Testimonial 1 -->
+      <div class="border border-gray-200 p-8 bg-gray-50">
+        <p class="mb-8 text-sm text-gray-600 leading-relaxed">
+          "I was impressed by the selection of vehicles at this dealership, and the sales team was incredibly helpful in helping me find the right one for my budget. They worked with me to find a financing plan that fit my needs, I never felt pressured to make a decision. I am so happy with my new car."
+        </p>
+        <div class="flex items-center gap-4">
+          <div class="h-12 w-12 rounded-full bg-gray-700 overflow-hidden">
+             <!-- Placeholder Avatar -->
+             <img src="https://i.pravatar.cc/150?img=11" alt="Eduard Franz" class="h-full w-full object-cover" />
+          </div>
+          <span class="font-bold text-gray-900">Eduard Franz</span>
+        </div>
+      </div>
+      <!-- Testimonial 2 -->
+      <div class="border border-gray-200 p-8 bg-gray-50">
+        <p class="mb-8 text-sm text-gray-600 leading-relaxed">
+          "I came to this dealership looking for a specific car, and they had the exact one I was looking for. The team was helpful and friendly, and they worked with me to make sure I got the best possible deal. I appreciate their transparency and willingness to answer all my questions."
+        </p>
+        <div class="flex items-center gap-4">
+          <div class="h-12 w-12 rounded-full bg-gray-700 overflow-hidden">
+             <!-- Placeholder Avatar -->
+             <img src="https://i.pravatar.cc/150?img=5" alt="Rene Wells" class="h-full w-full object-cover" />
+          </div>
+          <span class="font-bold text-gray-900">Rene Wells</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="bg-white py-16 text-gray-900">
+  <div class="container">
+    <div class="grid gap-12 md:grid-cols-4 justify-items-center text-center">
+      {% if brand_metrics %}
+        {% for metric in brand_metrics %}
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-5xl font-bold">{{ metric.value }}</span>
+          <p class="text-sm text-gray-500">
+            {{ metric.label }}
+          </p>
+        </div>
         {% endfor %}
+      {% else %}
+      <div class="flex flex-col items-center gap-2">
+        <span class="text-5xl font-bold">15K+</span>
+        <p class="text-sm text-gray-500">
+          Customers empowered
+        </p>
       </div>
-    </div>
-    <div class="relative">
-      <div class=" bg-gradient-to-br from-white to-todde-blue/10 p-8 shadow-card">
-        <img
-          src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=900&q=80"
-          alt="Driver satisfied with Todde service"
-          class="h-full w-full  object-cover"
-        />
+      <div class="flex flex-col items-center gap-2">
+        <span class="text-5xl font-bold">300+</span>
+        <p class="text-sm text-gray-500">
+          Cars financed this year
+        </p>
       </div>
-      <div class="absolute -bottom-8 right-6 w-56  bg-white p-4 text-sm text-todde-blue shadow-card">
-        <p class="font-semibold">Financing made simple</p>
-        <p class="text-xs text-todde-dark/70">Todde advisors stay with you from application to onboarding.</p>
+      <div class="flex flex-col items-center gap-2">
+        <span class="text-5xl font-bold">48hrs</span>
+        <p class="text-sm text-gray-500">
+          Average approval time
+        </p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="relative overflow-hidden py-16">
-  <div class="container relative z-10  bg-gradient-to-r from-todde-blue via-todde-blue-dark to-todde-jet px-8 py-14 text-white shadow-card">
-    <div class="grid gap-10 lg:grid-cols-[1.1fr_auto] lg:items-center">
-      <div class="space-y-6">
-        {% with copy=section_copy.financing_cta %}
-          <h2 class="text-3xl font-bold md:text-4xl">{{ copy.heading|default:"Unlock Todde Financing" }}</h2>
-          <p class="text-lg text-white/80">{{ copy.subheading|default:"Spread payments up to 36 months, enjoy bundled insurance, and stay road-ready with maintenance support." }}</p>
-        {% endwith %}
-        <ul class="grid gap-4 sm:grid-cols-3">
-          {% for highlight in financing_highlights %}
-            <li class=" bg-white/10 p-4 backdrop-blur">
-              <p class="text-lg font-semibold">{{ highlight.title }}</p>
-              <p class="text-sm text-white/80">{{ highlight.description }}</p>
-            </li>
-          {% endfor %}
-        </ul>
+      <div class="flex flex-col items-center gap-2">
+        <span class="text-5xl font-bold">98%</span>
+        <p class="text-sm text-gray-500">
+          Customer satisfaction
+        </p>
       </div>
-      <div class="space-y-4 text-center">
-        {% with copy=section_copy.financing_cta %}
-          {% if copy.cta_label and copy.cta_url %}
-            <span class="todde-button-primary bg-white/50 text-todde-blue/50 cursor-not-allowed">Coming Soon</span>
-          {% endif %}
-          <p class="text-sm text-white/70">{{ copy.supporting_text|default:"Decisions within 48 hours • Powered by Todde partner banks" }}</p>
-        {% endwith %}
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="bg-white py-20">
-  <div class="container grid gap-12 lg:grid-cols-2 lg:items-start">
-    <div class="space-y-6 pt-8">
-      {% with copy=section_copy.contact %}
-        <h2 class="text-2xl font-semibold text-todde-blue">{{ copy.heading|default:"Ready to get started?" }}</h2>
-        <p class="todde-subtitle">{{ copy.subheading|default:"Schedule a consultation with a Todde advisor to explore inventory, financing, and partner perks." }}</p>
-      {% endwith %}
-      
-      <!-- Benefits List -->
-      <div class="space-y-4 pt-2">
-        <div class="flex items-start gap-3">
-          <div class="flex h-6 w-6 items-center justify-center rounded-full bg-todde-blue/10 text-todde-blue mt-1">
-            {% marketing_icon 'heroicons:check' 'w-4 h-4' %}
-          </div>
-          <div>
-            <h4 class="font-semibold text-todde-dark">Expert Guidance</h4>
-            <p class="text-sm text-todde-dark/70">Get personalized recommendations from certified Todde advisors who understand your needs.</p>
-          </div>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="flex h-6 w-6 items-center justify-center rounded-full bg-todde-blue/10 text-todde-blue mt-1">
-            {% marketing_icon 'heroicons:check' 'w-4 h-4' %}
-          </div>
-          <div>
-            <h4 class="font-semibold text-todde-dark">Flexible Financing</h4>
-            <p class="text-sm text-todde-dark/70">Explore payment plans tailored to your budget, with competitive rates and transparent terms.</p>
-          </div>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="flex h-6 w-6 items-center justify-center rounded-full bg-todde-blue/10 text-todde-blue mt-1">
-            {% marketing_icon 'heroicons:check' 'w-4 h-4' %}
-          </div>
-          <div>
-            <h4 class="font-semibold text-todde-dark">Quality Assurance</h4>
-            <p class="text-sm text-todde-dark/70">Every vehicle is thoroughly inspected and verified by our engineering team before listing.</p>
-          </div>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="flex h-6 w-6 items-center justify-center rounded-full bg-todde-blue/10 text-todde-blue mt-1">
-            {% marketing_icon 'heroicons:check' 'w-4 h-4' %}
-          </div>
-          <div>
-            <h4 class="font-semibold text-todde-dark">Ongoing Support</h4>
-            <p class="text-sm text-todde-dark/70">Access maintenance support, insurance bundles, and warranty options throughout your ownership.</p>
-          </div>
-        </div>
-      </div>
-      
-      {% if contact_cards %}
-        <div class="grid gap-6 sm:grid-cols-2 pt-4">
-          {% for card in contact_cards %}
-            <div class=" border border-todde-blue/10 p-6 shadow-subtle">
-              <p class="text-sm font-semibold uppercase tracking-widest text-todde-blue/80">{{ card.title }}</p>
-              <p class="mt-2 text-base text-todde-dark/80">
-                {{ card.description|linebreaksbr }}
-                {% if card.link_label and card.link_url %}
-                  <a href="{{ card.link_url }}" class="text-todde-blue underline">{{ card.link_label }}</a>
-                {% endif %}
-              </p>
-            </div>
-          {% endfor %}
-        </div>
       {% endif %}
     </div>
-    <form class="todde-card space-y-5 bg-white p-8" aria-labelledby="contact-heading">
-      <h3 id="contact-heading" class="text-2xl font-semibold text-todde-blue">Book a Todde consultation</h3>
-      <div>
-        <label for="full_name" class="block text-sm font-medium text-todde-dark/80">Full Name</label>
-  <input id="full_name" type="text" name="full_name" class="mt-1 block w-full  border border-todde-blue/10 bg-white px-4 py-3 focus:border-todde-blue focus:ring-todde-blue/30" placeholder="Adaeze Okafor" />
-      </div>
-      <div class="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label for="email" class="block text-sm font-medium text-todde-dark/80">Email Address</label>
-          <input id="email" type="email" name="email" class="mt-1 block w-full  border border-todde-blue/10 bg-white px-4 py-3 focus:border-todde-blue focus:ring-todde-blue/30" placeholder="you@todde.africa" />
-        </div>
-        <div>
-          <label for="phone" class="block text-sm font-medium text-todde-dark/80">Phone Number</label>
-          <input id="phone" type="tel" name="phone" class="mt-1 block w-full  border border-todde-blue/10 bg-white px-4 py-3 focus:border-todde-blue focus:ring-todde-blue/30" placeholder="0801 234 5678" />
-        </div>
-      </div>
-      <div>
-        <label for="interest" class="block text-sm font-medium text-todde-dark/80">Interest</label>
-        <select id="interest" name="interest" class="mt-1 block w-full  border border-todde-blue/10 bg-white px-4 py-3 focus:border-todde-blue focus:ring-todde-blue/30">
-          <option>Interested in buying a car</option>
-          <option>Interested in financing</option>
-          <option>Partnering with Todde</option>
-        </select>
-      </div>
-      <div>
-        <label for="message" class="block text-sm font-medium text-todde-dark/80">Message</label>
-        <textarea id="message" name="message" rows="3" class="mt-1 block w-full  border border-todde-blue/10 bg-white px-4 py-3 focus:border-todde-blue focus:ring-todde-blue/30" placeholder="Tell us what you need"></textarea>
-      </div>
-      <button type="submit" class="todde-button-primary w-full">Request Callback</button>
-      <p class="text-xs text-todde-dark/60">By submitting, you agree to our privacy policy and consent to be contacted by the Todde team.</p>
-    </form>
   </div>
 </section>
+
+<!-- Footer CTA -->
+<section class="relative bg-black py-24 text-white">
+  <div class="absolute inset-0 z-0">
+    <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=80" alt="Footer CTA Background" class="h-full w-full object-cover opacity-40" />
+    <div class="absolute inset-0 bg-black/60"></div>
+  </div>
+  <div class="container relative z-10 flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+    <div class="max-w-2xl">
+      <h2 class="mb-4 text-4xl font-bold italic">Ready To Own Your Dream Car?<br />Start Your Journey Today</h2>
+      <p class="text-gray-300">
+        Get pre-approved in minutes with flexible financing options. Low monthly payments and drive away in as little as 48 hours.
+      </p>
+    </div>
+    <a href="{% url 'marketing:financing' %}" class="bg-todde-red px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-todde-red-dark">
+      Get Started
+    </a>
+  </div>
+</section>
+
 {% endblock %}
 
 {% block extra_js %}
   {{ block.super }}
-  <script src="{% static 'js/car-inventory.js' %}" defer></script>
+  <script src="{% static "js/car-inventory.js" %}" defer></script>
+  <script src="{% static "js/vehicle-tabs.js" %}" defer></script>
 {% endblock %}

@@ -1,1 +1,22 @@
-
+TODDE BRAND COLORS
+==================
+
+Primary Colors:
+- Deep Ocean Blue: #004080 (Primary brand color - headers, buttons, key elements)
+- Tangerine Orange: #E18335 (Secondary/Accent - highlights, pricing, CTAs)
+- Sky Blue: #89CFF0 (Light accent - backgrounds, hover states)
+
+Supporting Colors:
+- Dark Blue: #003366 (Hover states, darker elements)
+- Dark Orange: #C66D2A (Text, secondary orange elements)
+- Cream: #FFF5ED (Light backgrounds, cards)
+- Neutral Gray: #F3F7F8 (Page background)
+- Dark Gray: #383838 (Body text, secondary buttons)
+- Muted Gray: #6E7A7B (Subtitles, muted text)
+
+Color Usage Guidelines:
+- Use Deep Ocean Blue (#004080) for primary brand elements, navigation, and main CTAs
+- Use Tangerine Orange (#E18335) for accents, pricing, and attention-drawing elements
+- Use Sky Blue (#89CFF0) for light accents and success states
+- Maintain high contrast for accessibility
+- Avoid using all three primary colors equally - let Deep Ocean Blue dominate

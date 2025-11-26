@@ -1,110 +1,77 @@
 {% load static marketing_icons %}
-<header class="sticky top-0 z-50 bg-white shadow-lg">
-  <!-- Top Info Bar -->
-  <div class="border-b border-gray-200 bg-todde-jet text-white">
-    <div class="container">
-      <div class="flex items-center justify-between py-2">
-        <div class="flex items-center gap-4 text-xs text-white/90 md:gap-6">
-          <div class="flex items-center gap-2">
-            {% marketing_icon 'heroicons:map-pin' 'h-3.5 w-3.5 text-todde-blue' %}
-            <span class="hidden md:inline">Plot 24, Admiralty Rd, Lekki, Lagos</span>
-            <span class="inline md:hidden">Lagos</span>
-          </div>
-          <div class="flex items-center gap-2">
-            {% marketing_icon 'heroicons:envelope' 'h-3.5 w-3.5 text-todde-blue' %}
-            <a href="mailto:support@todde.africa" class="transition hover:text-todde-blue">support@todde.africa</a>
-          </div>
-          <div class="hidden items-center gap-2 lg:flex">
-            {% marketing_icon 'heroicons:clock' 'h-3.5 w-3.5 text-todde-blue' %}
-            <span>Mon-Sat: 8AM-6PM</span>
-          </div>
-        </div>
-        
-        <div class="flex items-center gap-3">
-          <a href="tel:+2347010012345" class="inline-flex items-center gap-1.5 bg-todde-blue px-3 py-1.5 text-xs font-semibold transition hover:bg-todde-blue-dark">
-            {% marketing_icon 'heroicons:phone' 'h-3.5 w-3.5' %}
-            <span>Call Us</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+<header class="fixed top-0 w-full z-50 bg-transparent backdrop-blur-sm border-b border-white/50">
+  <div class="container">
+    <div class="flex h-20 items-center justify-between">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 flex-shrink-0">
+        <img src="{% static 'images/logo.png' %}" alt="Todde" class="h-12 w-auto brightness-0 invert" />
+      </a>
 
-  <!-- Main Navigation -->
-  <nav class="bg-white">
-    <div class="container">
-      <div class="flex items-center gap-8 py-4">
-        <!-- Logo -->
-        <a href="/" class="flex items-center gap-3 flex-shrink-0">
-          <img src="{% static 'images/logo.png' %}" alt="Todde" class="h-12 w-auto" />
-        </a>
-
-        <!-- Navigation Links -->
-        <nav class="flex-1">
-          <ul class="flex items-center gap-8 text-sm font-medium text-gray-900">
-            <!-- New Cars Dropdown -->
-            <li class="relative group">
-              <a href="#" class="flex items-center gap-1 transition duration-150 hover:text-todde-blue py-2">
-                New Cars
-                {% marketing_icon 'heroicons:chevron-down' 'h-4 w-4' %}
-              </a>
-              <div class="absolute left-0 top-full w-48 bg-white border border-gray-200 shadow-lg rounded-md hidden group-hover:block z-50">
-                <div class="py-2">
-                  <a href="{% url 'marketing:all_cars' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-todde-blue hover:text-white transition">All Car Brands</a>
-                  <a href="{% url 'marketing:all_cars' %}?electric=true" class="block px-4 py-2 text-sm text-gray-700 hover:bg-todde-blue hover:text-white transition">Electric Vehicles</a>
-                </div>
-              </div>
-            </li>
-            
-            <!-- Used Cars Dropdown -->
-            <li class="relative group">
-              <a href="#" class="flex items-center gap-1 transition duration-150 hover:text-todde-blue py-2">
-                Used Cars
-                {% marketing_icon 'heroicons:chevron-down' 'h-4 w-4' %}
-              </a>
-              <div class="absolute left-0 top-full w-48 bg-white border border-gray-200 shadow-lg rounded-md hidden group-hover:block z-50">
-                <div class="py-2">
-                  <a href="{% url 'marketing:all_cars' %}?listing_type=foreign-used" class="block px-4 py-2 text-sm text-gray-700 hover:bg-todde-blue hover:text-white transition">Foreign Used</a>
-                  <a href="{% url 'marketing:all_cars' %}?listing_type=registered" class="block px-4 py-2 text-sm text-gray-700 hover:bg-todde-blue hover:text-white transition">Nigerian Used</a>
-                </div>
-              </div>
-            </li>
-
-            <!-- Car Financing -->
-            <li>
-              <a href="{% url 'marketing:financing' %}" class="transition duration-150 hover:text-todde-blue py-2">Car Financing</a>
-            </li>
-          </ul>
-        </nav>
-
-        <!-- Right Section: Search -->
-        <div class="flex flex-shrink-0 items-center">
-          <div class="relative w-full max-w-sm md:max-w-md xl:max-w-lg">
-            <label for="search-input" class="sr-only">Search</label>
-            <div class="group relative flex items-center gap-2 rounded-full border border-gray-200 bg-white pl-4 pr-2 py-1.5 shadow-lg transition-transform duration-200 ease-out hover:-translate-y-0.5 hover:shadow-xl focus-within:border-todde-blue focus-within:shadow-2xl focus-within:ring-2 focus-within:ring-todde-blue/20 overflow-hidden">
-              <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors group-focus-within:bg-todde-blue/10 group-focus-within:text-todde-blue">
-                <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-              </span>
-              <input
-                type="search"
-                id="search-input"
-                name="q"
-                class="flex-1 min-w-0 border-none bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0"
-                placeholder="Search cars, brands, models..."
-                autocomplete="off"
-              />
-              <div class="flex flex-shrink-0 items-center gap-2">
-                <span class="hidden text-xs font-medium uppercase tracking-wide text-gray-400 lg:inline">Type to search</span>
+      <!-- Centered Navigation -->
+      <nav class="hidden md:block">
+        <ul class="flex items-center gap-8 text-sm font-medium text-white">
+          <!-- New Cars Dropdown -->
+          <li class="relative group">
+            <a href="#" class="flex items-center gap-1 transition hover:text-todde-red py-6">
+              New Cars
+              {% marketing_icon 'heroicons:chevron-down' 'h-4 w-4' %}
+            </a>
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-48 bg-todde-dark-bg border border-white/10 shadow-xl rounded-sm hidden group-hover:block">
+              <div class="py-2">
+                <a href="{% url 'marketing:all_cars' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition">All Car Brands</a>
+                <a href="{% url 'marketing:all_cars' %}?electric=true" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition">Electric Vehicles</a>
               </div>
             </div>
-            
-            <!-- Search Results Dropdown -->
-            <div id="search-results" class="hidden"></div>
-          </div>
-        </div>
+          </li>
+          
+          <!-- Used Cars Dropdown -->
+          <li class="relative group">
+            <a href="#" class="flex items-center gap-1 transition hover:text-todde-red py-6">
+              Used Cars
+              {% marketing_icon 'heroicons:chevron-down' 'h-4 w-4' %}
+            </a>
+            <div class="absolute left-1/2 -translate-x-1/2 top-full w-48 bg-todde-dark-bg border border-white/10 shadow-xl rounded-sm hidden group-hover:block">
+              <div class="py-2">
+                <a href="{% url 'marketing:all_cars' %}?listing_type=foreign-used" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition">Foreign Used</a>
+                <a href="{% url 'marketing:all_cars' %}?listing_type=registered" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition">Nigerian Used</a>
+              </div>
+            </div>
+          </li>
+
+          <!-- Car Financing -->
+          <li>
+            <a href="{% url 'marketing:financing' %}" class="transition hover:text-todde-red py-6">Car Financing</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-6">
+        <!-- Search Icon -->
+        <button type="button" class="text-white hover:text-todde-red transition" onclick="document.getElementById('search-bar-container').classList.toggle('hidden'); document.getElementById('search-input').focus();">
+           {% marketing_icon 'heroicons:magnifying-glass' 'h-5 w-5' %}
+        </button>
+
+        <!-- CTA Button -->
+        <a href="{% url 'marketing:all_cars' %}" class="hidden border border-white/30 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-white hover:text-black sm:inline-block">
+          Explore Vehicles
+        </a>
       </div>
     </div>
-  </nav>
+    
+    <!-- Hidden Search Bar (Expandable) -->
+    <div id="search-bar-container" class="hidden border-t border-white/10 bg-todde-dark-bg py-4 absolute left-0 right-0 top-full shadow-xl">
+       <div class="container">
+         <form action="{% url 'marketing:all_cars' %}" method="GET" class="relative">
+            <div class="relative">
+                <input type="text" id="search-input" name="q" placeholder="Search cars, brands, models..." class="w-full bg-transparent border-b border-white/20 py-4 text-white placeholder-gray-500 focus:border-todde-red focus:outline-none text-xl" autocomplete="off" />
+                <div id="search-results" class="hidden"></div>
+            </div>
+            <button type="submit" class="absolute right-0 top-4 text-gray-400 hover:text-white">
+               {% marketing_icon 'heroicons:arrow-right' 'h-6 w-6' %}
+            </button>
+         </form>
+       </div>
+    </div>
+  </div>
 </header>
